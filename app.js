@@ -25,6 +25,21 @@ app.get('/posts', async (req, res) => {
   res.send(results);
 })
 
+app.patch('/posts/:id', async (req, res) => {
+  const {id} = req.params;
+  const {title} = req.body;
+
+  if (!title) {
+    return res.status(400).send('please send title');
+  }
+
+  const [data] =await db.execute("UPDATE posts SET title = ? WHERE id = ?", [
+    title,
+    id,
+  ]);
+  res.send({ sucess: data.affectedRows > 0 });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
