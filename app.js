@@ -20,6 +20,11 @@ app.post('/posts', async (req, res) => {
   res.send({ sucess: result.affectedRows > 0 });
 });
 
+app.get('/posts', async (req, res) => {
+  const [results] = await db.execute('SELECT * from posts');
+  res.send(results);
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
